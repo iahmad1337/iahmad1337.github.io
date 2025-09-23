@@ -1,0 +1,8 @@
+site_name: My Documentation
+nav:
+  - Home: index.md
+  - Red Eye Club: tlpi.md
+  - Linux Amdinistration: linux-admin.md
+  - Security: itsec.md
+  - "cheat sheet": cheat-sheet.md
+  - "garage sale": garage-sale.md
