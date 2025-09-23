@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>tlpi - My Documentation</title>
+        <title>Red Eye Club - My Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -38,7 +38,13 @@
                                 <a href=".." class="nav-link">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">tlpi</a>
+                                <a href="./" class="nav-link active" aria-current="page">Red Eye Club</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../linux-admin/" class="nav-link">Linux Amdinistration</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../itsec/" class="nav-link">Security</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../cheat-sheet/" class="nav-link">cheat sheet</a>
@@ -60,7 +66,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../cheat-sheet/" class="nav-link">
+                                <a rel="next" href="../linux-admin/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -84,7 +90,15 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#tlpi-page" class="nav-link">TLPI Page</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#example-section" class="nav-link">Example Section</a>
+            <li class="nav-item" data-bs-level="2"><a href="#meeting" class="nav-link">Meeting</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#chapter-56-sockets-introduction" class="nav-link">Chapter 56 "Sockets: Introduction"</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#chapter-57-sockets-unix-domain" class="nav-link">Chapter 57 "Sockets: UNIX Domain"</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -96,9 +110,96 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="tlpi-page">TLPI Page</h1>
-<p>This is the TLPI documentation page.</p>
-<h2 id="example-section">Example Section</h2>
-<p>A sample paragraph about TLPI (The Linux Programming Interface).</p></div>
+<h2 id="meeting">Meeting</h2>
+<p>Scheduled on 11:00 (Moscow, GMT+3) every sunday</p>
+<form id="xorForm">
+        <label for="inputText">Enter password:</label><br>
+        <input type="text" id="inputText" name="inputText" size="50"><br><br>
+        <button type="submit">Convert</button>
+    </form>
+
+<div id="output"></div>
+
+<script>
+    // Fixed byte array for XOR operation (you can change this)
+    const encodedResult = [4, 29, 26, 5, 0, 23, 77, 78, 26, 7, 93, 78, 7, 9, 67, 10, 15, 25, 31, 2, 8, 14, 5, 2, 92, 0, 41, 33, 8, 14, 3, 34, 22, 111, 82, 52, 43, 94, 61, 26, 89, 80, 6, 80, 89, 4, 11, 69, 3, 7, 34, 5, 10, 122, 94, 86, 88, 29, 6, 2, 35, 120, 80, 81, 1, 3, 23, 100];
+
+    document.getElementById('xorForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get input text
+        const inputText = document.getElementById('inputText').value.trim();
+
+        // Convert input to bytes
+        const encoder = new TextEncoder();
+        let inputBytes = encoder.encode(inputText);
+        if (inputBytes.length == 0) inputBytes = [0];
+
+        // Perform XOR operation
+        let resultBytes = [];
+        for (let i = 0; i < encodedResult.length; i++) {
+            resultBytes.push(inputBytes[i % inputBytes.length] ^ encodedResult[i]);
+        }
+
+        // const crypto = require('crypto');
+        window.crypto.subtle.digest("SHA-256", new Uint8Array(resultBytes)).then(hashBuffer => {
+            // const hashBuffer = window.crypto.subtle.digest("SHA-256", new Uint8Array(resultBytes));
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hash = hashArray
+                .map((item) => item.toString(16).padStart(2, "0"))
+                .join("");
+
+
+            console.log(hashBuffer)
+            console.log(hash)
+
+            const outputDiv = document.getElementById('output');
+            if (hash !== '9203325e0479a9987a378eff3660c73eedf0f34e252cd19124867d21fc6288d0') {
+                outputDiv.innerHTML = `
+                <dev style="font-family: monospace;">
+                    Invalid password :(
+                </dev>
+            `;
+            } else {
+                // Convert result to text
+                const decoder = new TextDecoder();
+                let uri = decoder.decode(Uint8Array.from(resultBytes));
+
+                outputDiv.innerHTML = `
+                    <h3>Your link:</h3>
+                    <a href="${uri}" onclick="return false;" style="font-family: monospace;">
+                        ${uri}
+                    </a>
+                `;
+            }
+        });
+    });
+</script>
+
+<h2 id="chapter-56-sockets-introduction">Chapter 56 "Sockets: Introduction"</h2>
+<p>Notes from 07.09.2025</p>
+<ul>
+<li>One of the possible problems of using sockets POSIX API are <a href="https://stackoverflow.com/questions/98650/what-is-the-strict-aliasing-rule">strict aliasing rules</a> that are very hard to follow</li>
+<li>Example of how the solutions to exercises can be organized: https://github.com/iahmad1337/linux-learning/tree/main/linux-programming-interface/chapters</li>
+</ul>
+<p>How to get LSP support for the code in the book:</p>
+<pre><code>    8  wget https://man7.org/tlpi/code/download/tlpi-250328-dist.tar.gz
+    9  ls
+   10  tar -xf tlpi-250328-dist.tar.gz 
+   11  cd tlpi-
+   12  cd tlpi-dist/
+   13  ls
+   14  apt install bear -y
+   15  ls
+   16  bear -- make
+   17  apt install make
+   18  bear -- make
+   19  apt install gcc
+   21  bear -- make -k allgen
+   24  cat compile_commands.json
+</code></pre>
+<h2 id="chapter-57-sockets-unix-domain">Chapter 57 "Sockets: UNIX Domain"</h2>
+<p>Meeting is planned on 28.09.2025 at 11:00 (Moscow time)</p></div>
             </div>
         </div>
 
