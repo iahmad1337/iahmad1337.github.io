@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +10,15 @@
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Linux Amdinistration - My Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
-
-        <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
     </head>
 
     <body>
@@ -25,7 +26,7 @@
             <div class="container">
                 <a class="navbar-brand" href="..">My Documentation</a>
                 <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -33,29 +34,29 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="navitem">
+                            <li class="nav-item">
                                 <a href=".." class="nav-link">Home</a>
                             </li>
-                            <li class="navitem">
+                            <li class="nav-item">
                                 <a href="../tlpi/" class="nav-link">Red Eye Club</a>
                             </li>
-                            <li class="navitem active">
-                                <a href="./" class="nav-link">Linux Amdinistration</a>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Linux Amdinistration</a>
                             </li>
-                            <li class="navitem">
+                            <li class="nav-item">
                                 <a href="../itsec/" class="nav-link">Security</a>
                             </li>
-                            <li class="navitem">
+                            <li class="nav-item">
                                 <a href="../cheat-sheet/" class="nav-link">cheat sheet</a>
                             </li>
-                            <li class="navitem">
+                            <li class="nav-item">
                                 <a href="../garage-sale/" class="nav-link">garage sale</a>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ml-auto">
+                    <ul class="nav navbar-nav ms-md-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -76,23 +77,19 @@
 
         <div class="container">
             <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
             <span class="fa fa-angle-down"></span>
         </button>
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#lecture-2" class="nav-link">Lecture 2</a>
+            <li class="nav-item" data-bs-level="1"><a href="#linux-administration" class="nav-link">Linux Administration</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#dev" class="nav-link">/dev/</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
               </ul>
             </li>
         </ul>
@@ -100,104 +97,8 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<p>Usefull links:</p>
-<ul>
-<li><a href="https://youtu.be/uqHjc7hlqd0">Advanced bash scripting</a> and the whole
-  <a href="https://www.youtube.com/playlist?list=PLz0NfPpvHdPEmRWIN06SO_lRv-THMfr-R">playlist</a></li>
-</ul>
-<h1 id="lecture-2">Lecture 2</h1>
-<ul>
-<li>TLPI Ch. 14-15</li>
-<li><a href="https://www.kernel.org/doc/html/latest/filesystems/ext4/inodes.html">inodes in ext4</a></li>
-<li><a href="https://linux.die.net/man/1/nc">netcat</a></li>
-<li><a href="https://linux.die.net/man/1/dd">dd</a></li>
-<li><a href="https://linux.die.net/man/1/ln">ln</a></li>
-<li><a href="https://linux.die.net/man/1/chmod">chmod</a></li>
-<li>
-<p><a href="https://linux.die.net/man/1/chown">chown</a></p>
-</li>
-<li>
-<p>inode (index node, индексный дескриптор) - не зависящая от файловой ситсемы сущность</p>
-</li>
-<li>hard link - это ассоциация пути в файловой системе c inode. По сути <code>Map&lt;Path, INode&gt;</code></li>
-<li>хардлинки запрещено делать между ФС (нельзя сделать из /home в /var/log)</li>
-<li>разные маунты ФС имеют разную нумерацию inode-ов</li>
-</ul>
-<p>Посмотрим на пример вывода команды stat:</p>
-<pre><code>$ stat README.md
-  File: README.md
-  Size: 22              Blocks: 8          IO Block: 4096   regular file
-Device: 259,2   Inode: 3161481     Links: 1 Access: (0644/-rw-r--r--)  Uid: ( 1000/   ahmad)   Gid: ( 1000/   ahmad)
-Access: 2025-09-24 23:12:03.450097612 +0300
-Modify: 2025-09-21 18:50:09.736830287 +0300 Change: 2025-09-21 18:50:09.736830287 +0300
- Birth: 2025-09-21 18:50:09.736830287 +0300
-</code></pre>
-<p><code>Links</code> - количество жестких ссылок на и-ноду.
-Можно попытаться с помощью команды <code>find ... -inum N</code> найти все файлы,
-ссылающиеся на и-ноду N:</p>
-<pre><code>$ find . -inum 3161481
-./README.md
-$ ln README.md readme2
-$ find . -inum 3161481
-./readme2
-./README.md
-</code></pre>
-<p>Кстати, хардлинки разрешены для директорий, но только под рутом, чтобы случайно
-не создать цикл из ссылок:</p>
-<pre><code>(из man ln)
-       -d, -F, --directory
-              allow the superuser to attempt to hard link directories (note:
-              will probably fail due to system restrictions, even for the
-              superuser)
-</code></pre>
-<ul>
-<li>soft link (символическая ссылка) - <code>Map&lt;Path, Path&gt;</code></li>
-</ul>
-<p>Преимущество симфолической ссылки в том, что они могут существовать cross-FS,
-т.к. пути FS-agnostic</p>
-<h2 id="dev">/dev/</h2>
-<p>Кастомная ФС под девайсы: запись в файл = запись в девайс, чтение файла = чтение
-из девайса.</p>
-<ul>
-<li>/dev/null - устройство в которое можно бесконечно писать че угодно без
-  какого-либо эффекта. Пример <code>./command 2&gt;/dev/null</code></li>
-<li><code>/dev/random</code>/<code>/dev/urandom</code> - можно читать случайный поток байт</li>
-<li><code>/dev/zero</code> - можно читать и получать бесконечный поток нулевых байтов</li>
-<li><code>/dev/ttyN</code> - виртуальные консоли, туда можно писать</li>
-<li><code>/dev/console</code> - не понял,
-  <a href="https://unix.stackexchange.com/questions/485156/what-is-dev-console-used-for">SO</a></li>
-<li><code>/dev/sd[a-z][0-9]*</code> - это файлы-дырки, которые являются интерфейсом к
-  SATA-based дискам. Номер в конце - номер раздела (партиции) диска.</li>
-<li><code>/dev/nvme*</code> - то же самое для NVME-дисков (подключенные через PCIe а не SATA)</li>
-<li>файловые дырки бывают символьные (c) а бывают блочные (b)</li>
-</ul>
-<p>Как разлить по сети образ диска на другой компьютер в локальной сети:</p>
-<pre><code class="language-bash"># transmitter (has address 192.168.0.1)
-dd if=/dev/sda | nc -P1234
-
-# receiver
-nc 192.168.0.1:1234 | dd of=/dev/sda
-</code></pre>
-<p>А что если не хотим разбираться с SIGPIPE и писать signal handler-ы? Тогда можно
-заиспользовать именованные каналы - на помощь приходит mkfifo:</p>
-<pre><code class="language-bash">mkfifo ./tx
-nc -P1234 &lt;./tx &amp;
-dd if=/dev/sda &gt;./tx
-
-# receiver
-mkfifo ./rx
-nc 192.168.0.1:1234 &gt;./rx &amp;
-dd of=/dev/sda &lt;./rx
-</code></pre>
-<p>Если бы мы просто сделали touch ./rx, то всё взаимодействие происходило через
-диск и мы бы получили оверхерд на запись/чтение с него. Зато именованный канал
-работает in-memory.</p>
-<p>Разберем вывод <code>ls -l</code>:
-<img alt="ll cheatsheet" src="../img/linux-admin/ll-cheatsheet.png" /></p>
-<p><em>Note</em>: <code>2</code> (второе поле) - кол-во жестких ссылок на эту inode</p>
-<p><code>chmod</code> - позволяет менять пермишены (первое поле):</p>
-<p><img alt="chmod cheat-sheet" src="../img/linux-admin/chmod-cheatsheet.png" /></p>
-<p><code>chown</code> - позволяет менять владельцев и создателей</p></div>
+<h1 id="linux-administration">Linux Administration</h1>
+<p>Kek</p></div>
             </div>
         </div>
 
@@ -205,19 +106,20 @@ dd of=/dev/sda &lt;./rx
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
         <script>
             var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../js/base.js" defer></script>
-        <script src="../search/main.js" defer></script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>From here you can search these documents. Enter your search terms below.</p>
@@ -237,7 +139,7 @@ dd of=/dev/sda &lt;./rx
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <table class="table">
