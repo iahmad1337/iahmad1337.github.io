@@ -7,14 +7,14 @@
         
         
         
-        <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Security - My Documentation</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../css/brands.min.css" rel="stylesheet">
-        <link href="../css/solid.min.css" rel="stylesheet">
-        <link href="../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Clangd LSP - My Documentation</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
         <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
         <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
@@ -24,7 +24,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="..">My Documentation</a>
+                <a class="navbar-brand" href="../..">My Documentation</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,22 +35,22 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="nav-item">
-                                <a href=".." class="nav-link">Home</a>
+                                <a href="../.." class="nav-link">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../tlpi/" class="nav-link">Red Eye Club</a>
+                                <a href="../../tlpi/" class="nav-link">Red Eye Club</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../linux-admin/" class="nav-link">Linux Amdinistration</a>
+                                <a href="../../linux-admin/" class="nav-link">Linux Amdinistration</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Security</a>
+                                <a href="../../itsec/" class="nav-link">Security</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../cheat-sheet/" class="nav-link">cheat sheet</a>
+                                <a href="../../cheat-sheet/" class="nav-link">cheat sheet</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../garage-sale/" class="nav-link">garage sale</a>
+                                <a href="../../garage-sale/" class="nav-link">garage sale</a>
                             </li>
                         </ul>
 
@@ -60,16 +60,6 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../linux-admin/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../cheat-sheet/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
                     </ul>
                 </div>
             </div>
@@ -87,15 +77,87 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#clangd-lsp" class="nav-link">Clangd LSP</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#compilation-database" class="nav-link">Compilation database</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
+<h1 id="clangd-lsp">Clangd LSP</h1>
+<p>Prebuilt packages didn't work, so I had to build it from source:</p>
 <ul>
-<li><a href="www.xorpd.net/pages/xchg_rax/snip_39.html">xorpd reversing exercises</a></li>
-<li>https://www.hse.ru/staff/PantiukhinDmitry/timetable</li>
-</ul></div>
+<li>https://llvm.org/docs/GettingStarted.html</li>
+<li>take source code from a tar.gz here: https://github.com/llvm/llvm-project/releases</li>
+<li>How to build just clangd: https://github.com/llvm/llvm-project/tree/main/clang-tools-extra/clangd#building-and-testing-clangd</li>
+<li>buildiing llvm from source details: https://llvm.org/docs/CMake.html</li>
+</ul>
+<p>TL;DR:</p>
+<pre><code class="language-bash"># get the llvm source
+wget https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-12.0.1.tar.gz
+tar -xf llvmorg-12.0.1.tar.gz
+
+# use the latest gcc and cmake just in case
+source /opt/rh/devtoolset-11/enable
+wget https://github.com/Kitware/CMake/releases/download/v3.31.0/cmake-3.31.0-linux-x86_64.tar.gz
+tar -xf cmake-3.31.0-linux-x86_64.tar.gz
+export PATH=$(pwd)/cmake-3.31.0-linux-x86_64/bin:$PATH
+
+# prepare the build files in llvm-12-build/ directory
+mkdir -p llvm-12-build/
+cmake \
+    -S llvm-project-llvmorg-12.0.1/llvm \
+    -B llvm-12-build \
+    -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=$HOME/programs/llvm-12-install \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DBUILD_SHARED_LIBS=on\
+    -DLLVM_ENABLE_PROJECTS=&quot;clang;clang-tools-extra&quot; \
+    -DLLVM_TARGETS_TO_BUILD=&quot;host&quot; \
+    -DLLVM_PARALLEL_LINK_JOBS=1 \
+    -DLLVM_PARALLEL_COMPILE_JOBS=4
+
+# Explanation:
+# - -DLLVM_ENABLE_PROJECTS=&quot;clang;clang-tools-extra&quot; is needed for clangd to be
+#   built
+# - -DLLVM_PARALLEL_LINK_JOBS=1 is used to avoid linker OOM death
+
+# do the build
+ninja -C llvm-12-build/ clangd
+
+# do the installation
+cd llvm-12-build
+cmake --build . --target install
+
+# add binaries to path
+cd ../llvm-12-install/bin
+for i in clang*; do ln -s $(realpath $i) ~/.local/bin/$i; done
+</code></pre>
+<p>The build lasted for 2-3 hours; installation also took quite a bit of time (~1 hour).</p>
+<p>You can track the elapsed time with this script:</p>
+<pre><code class="language-bash">start=$(date +%s); while pidof ninja &amp;&gt;/dev/null; do sleep 30;  cur=$(date +%s); echo &quot;seconds elapsed $((cur - start))&quot;; done
+</code></pre>
+<h2 id="compilation-database">Compilation database</h2>
+<p>To generate, do</p>
+<pre><code class="language-bash">cmake -S $src -B $bld -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+cp $bld/compile_commands.json $src
+</code></pre>
+<p>The raw <code>compile_commands.json</code> may not work out of the box, as some flags are
+redundant/missing. Here's a fix:</p>
+<pre><code class="language-bash">compile-commands -v --file ./compile_commands.json --add_flags='-std=c++17'
+sed -i &quot;/no-extended-identifiers/d&quot; ./compile_commands.json
+</code></pre>
+<p>The <code>compile-commands</code> utility can be installed via <code>pip3 install compile-commands</code>
+(note that the minimum required python version is 3.8).</p>
+<p>And that's it!</p></div>
             </div>
         </div>
 
@@ -103,13 +165,13 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
         <script>
-            var base_url = "..",
+            var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../js/base.js"></script>
-        <script src="../search/main.js"></script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

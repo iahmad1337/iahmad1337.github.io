@@ -7,14 +7,14 @@
         
         
         
-        <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Security - My Documentation</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../css/brands.min.css" rel="stylesheet">
-        <link href="../css/solid.min.css" rel="stylesheet">
-        <link href="../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Why do this? - My Documentation</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
         <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
         <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
@@ -24,7 +24,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="..">My Documentation</a>
+                <a class="navbar-brand" href="../..">My Documentation</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,22 +35,22 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="nav-item">
-                                <a href=".." class="nav-link">Home</a>
+                                <a href="../.." class="nav-link">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../tlpi/" class="nav-link">Red Eye Club</a>
+                                <a href="../../tlpi/" class="nav-link">Red Eye Club</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../linux-admin/" class="nav-link">Linux Amdinistration</a>
+                                <a href="../../linux-admin/" class="nav-link">Linux Amdinistration</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Security</a>
+                                <a href="../../itsec/" class="nav-link">Security</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../cheat-sheet/" class="nav-link">cheat sheet</a>
+                                <a href="../../cheat-sheet/" class="nav-link">cheat sheet</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../garage-sale/" class="nav-link">garage sale</a>
+                                <a href="../../garage-sale/" class="nav-link">garage sale</a>
                             </li>
                         </ul>
 
@@ -60,16 +60,6 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../linux-admin/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../cheat-sheet/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
                     </ul>
                 </div>
             </div>
@@ -87,15 +77,80 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#why-do-this" class="nav-link">Why do this?</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#openssl" class="nav-link">openssl</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_ctypes" class="nav-link">_ctypes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#python312" class="nav-link">python3.12</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<ul>
-<li><a href="www.xorpd.net/pages/xchg_rax/snip_39.html">xorpd reversing exercises</a></li>
-<li>https://www.hse.ru/staff/PantiukhinDmitry/timetable</li>
-</ul></div>
+<h1 id="why-do-this">Why do this?</h1>
+<p>Installed version of python had some issues with <code>requests</code> module that I wasn't
+able to fix.</p>
+<h2 id="openssl">openssl</h2>
+<p>Without this, new python installation won't be able to install packages via pip
+and use the <code>requests</code> module.</p>
+<pre><code class="language-bash"># At least version 1.1.1 is needed
+wget https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1k/openssl-1.1.1k.tar.gz
+
+tar -xf openssl-1.1.1k.tar.gz
+cd openssl-1.1.1k
+
+./config --prefix=$HOME/programs/openssl-1.1.1k-install/
+make
+make test
+</code></pre>
+<p>And also add this to <code>.bash_profile</code>/<code>.profile</code>:</p>
+<pre><code class="language-bash">LD_LIBRARY_PATH=$HOME/programs/openssl-1.1.1k-install/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+</code></pre>
+<p>without this, python won't know the runtime path of openssl shared lib</p>
+<h2 id="_ctypes"><code>_ctypes</code></h2>
+<p>Before configure, theese packages should be installed in the following order
+using your package manager (apt/dnf/yum/etc.):</p>
+<ol>
+<li><code>gcc gcc-c++</code></li>
+<li><code>zlib zlib-devel</code></li>
+<li><code>install libffi-devel</code></li>
+</ol>
+<p><a href="https://stackoverflow.com/q/27022373/17549962">Explanation</a></p>
+<h2 id="python312">python3.12</h2>
+<pre><code class="language-bash">wget https://www.python.org/ftp/python/3.12.7/Python-3.12.7.tgz
+tar tvf Python-3.12.7.tgz
+cd Python-3.12.7/
+
+# You might need a `libreadline-dev` package installed via your package manager
+./configure \
+    --prefix=&quot;$HOME/.local&quot; \
+    --enable-ipv6 \
+    --disable-test-modules \
+    --with-readline=readline \
+    --with-openssl=$HOME/programs/openssl-1.1.1k-install \
+    --with-ensurepip=install
+
+make -j6 all
+make install
+
+# Ensure that new python version is indeed in our PATH and that ssl works (may
+# need relogin/reboot after the openssl installation to activate `.profile`
+# sourcing)
+python3.12 -c &quot;import ssl&quot;
+</code></pre></div>
             </div>
         </div>
 
@@ -103,13 +158,13 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
         <script>
-            var base_url = "..",
+            var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../js/base.js"></script>
-        <script src="../search/main.js"></script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

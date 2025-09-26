@@ -88,7 +88,20 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#linux-administration" class="nav-link">Linux Administration</a>
+            <li class="nav-item" data-bs-level="1"><a href="#lecture-2-filesystems-part-i-inodes-links-permissions" class="nav-link">Lecture 2: Filesystems part I (inodes, links, permissions)</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#dev" class="nav-link">/dev/</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#ls-l" class="nav-link">ls -l</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#lecture-3-filesystems-part-ii-attributes-history-of-linux-fss" class="nav-link">Lecture 3: Filesystems part II (attributes, history of linux FSs)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -97,8 +110,113 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="linux-administration">Linux Administration</h1>
-<p>Kek</p></div>
+<p>Usefull links:</p>
+<ul>
+<li><a href="https://youtu.be/uqHjc7hlqd0">Advanced bash scripting</a> and the whole
+  <a href="https://www.youtube.com/playlist?list=PLz0NfPpvHdPEmRWIN06SO_lRv-THMfr-R">playlist</a></li>
+</ul>
+<h1 id="lecture-2-filesystems-part-i-inodes-links-permissions">Lecture 2: Filesystems part I (inodes, links, permissions)</h1>
+<ul>
+<li>TLPI Ch. 14-15</li>
+<li><a href="https://www.kernel.org/doc/html/latest/filesystems/ext4/inodes.html">inodes in ext4</a></li>
+<li><a href="https://linux.die.net/man/1/nc">netcat</a></li>
+<li><a href="https://linux.die.net/man/1/dd">dd</a></li>
+<li><a href="https://linux.die.net/man/1/ln">ln</a></li>
+<li><a href="https://linux.die.net/man/1/chmod">chmod</a></li>
+<li>
+<p><a href="https://linux.die.net/man/1/chown">chown</a></p>
+</li>
+<li>
+<p>inode (index node, индексный дескриптор) - не зависящая от файловой ситсемы сущность</p>
+</li>
+<li>hard link - это ассоциация пути в файловой системе c inode. По сути <code>Map&lt;Path, INode&gt;</code></li>
+<li>хардлинки запрещено делать между ФС (нельзя сделать из /home в /var/log)</li>
+<li>разные маунты ФС имеют разную нумерацию inode-ов</li>
+</ul>
+<p>Посмотрим на пример вывода команды stat:</p>
+<pre><code>$ stat README.md
+  File: README.md
+  Size: 22              Blocks: 8          IO Block: 4096   regular file
+Device: 259,2   Inode: 3161481     Links: 1 Access: (0644/-rw-r--r--)  Uid: ( 1000/   ahmad)   Gid: ( 1000/   ahmad)
+Access: 2025-09-24 23:12:03.450097612 +0300
+Modify: 2025-09-21 18:50:09.736830287 +0300 Change: 2025-09-21 18:50:09.736830287 +0300
+ Birth: 2025-09-21 18:50:09.736830287 +0300
+</code></pre>
+<p><code>Links</code> - количество жестких ссылок на и-ноду.
+Можно попытаться с помощью команды <code>find ... -inum N</code> найти все файлы,
+ссылающиеся на и-ноду N:</p>
+<pre><code>$ find . -inum 3161481
+./README.md
+$ ln README.md readme2
+$ find . -inum 3161481
+./readme2
+./README.md
+</code></pre>
+<p>Кстати, хардлинки разрешены для директорий, но только под рутом, чтобы случайно
+не создать цикл из ссылок:</p>
+<pre><code>(из man ln)
+       -d, -F, --directory
+              allow the superuser to attempt to hard link directories (note:
+              will probably fail due to system restrictions, even for the
+              superuser)
+</code></pre>
+<ul>
+<li>soft link (символическая ссылка) - <code>Map&lt;Path, Path&gt;</code></li>
+</ul>
+<p>Преимущество симфолической ссылки в том, что они могут существовать cross-FS,
+т.к. пути FS-agnostic</p>
+<h2 id="dev">/dev/</h2>
+<p>Кастомная ФС под девайсы: запись в файл = запись в девайс, чтение файла = чтение
+из девайса.</p>
+<ul>
+<li>/dev/null - устройство в которое можно бесконечно писать че угодно без
+  какого-либо эффекта. Пример <code>./command 2&gt;/dev/null</code></li>
+<li><code>/dev/random</code>/<code>/dev/urandom</code> - можно читать случайный поток байт</li>
+<li><code>/dev/zero</code> - можно читать и получать бесконечный поток нулевых байтов</li>
+<li><code>/dev/ttyN</code> - виртуальные консоли, туда можно писать</li>
+<li><code>/dev/console</code> - не понял,
+  <a href="https://unix.stackexchange.com/questions/485156/what-is-dev-console-used-for">SO</a></li>
+<li><code>/dev/sd[a-z][0-9]*</code> - это файлы-дырки, которые являются интерфейсом к
+  SATA-based дискам. Номер в конце - номер раздела (партиции) диска.</li>
+<li><code>/dev/nvme*</code> - то же самое для NVME-дисков (подключенные через PCIe а не SATA)</li>
+<li>файловые дырки бывают символьные (c) а бывают блочные (b)</li>
+</ul>
+<p>Как разлить по сети образ диска на другой компьютер в локальной сети:</p>
+<pre><code class="language-bash"># transmitter (has address 192.168.0.1)
+dd if=/dev/sda | nc -P1234
+
+# receiver
+nc 192.168.0.1:1234 | dd of=/dev/sda
+</code></pre>
+<p>А что если не хотим разбираться с SIGPIPE и писать signal handler-ы? Тогда можно
+заиспользовать именованные каналы - на помощь приходит mkfifo:</p>
+<pre><code class="language-bash">mkfifo ./tx
+nc -P1234 &lt;./tx &amp;
+dd if=/dev/sda &gt;./tx
+
+# receiver
+mkfifo ./rx
+nc 192.168.0.1:1234 &gt;./rx &amp;
+dd of=/dev/sda &lt;./rx
+</code></pre>
+<p>Если бы мы просто сделали touch ./rx, то всё взаимодействие происходило через
+диск и мы бы получили оверхерд на запись/чтение с него. Зато именованный канал
+работает in-memory.</p>
+<h2 id="ls-l"><code>ls -l</code></h2>
+<p>Разберем вывод <code>ls -l</code>:
+<img alt="ll cheatsheet" src="../img/linux-admin/ll-cheatsheet.png" /></p>
+<p><em>Note</em>: <code>2</code> (второе поле) - кол-во жестких ссылок на эту inode</p>
+<p><code>chmod</code> - позволяет менять пермишены (первое поле):</p>
+<p><img alt="chmod cheat-sheet" src="../img/linux-admin/chmod-cheatsheet.png" /></p>
+<p><code>chown</code> - позволяет менять владельцев и создателей</p>
+<h1 id="lecture-3-filesystems-part-ii-attributes-history-of-linux-fss">Lecture 3: Filesystems part II (attributes, history of linux FSs)</h1>
+<ul>
+<li>TLPI Ch. 15</li>
+<li>TLPI Ch. 9 для SUID, SGID и Sticky</li>
+</ul>
+<p>Начнем дальше разбирать вывод <code>ls</code>.</p>
+<p>Помимо маски с разрешениями (e.g. <code>drwxr-xr-x</code>), есть ещё пара атрибутов, а
+именно SUID, SGID,</p></div>
             </div>
         </div>
 
