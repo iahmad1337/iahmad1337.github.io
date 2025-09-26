@@ -1,1 +1,2 @@
-itsec stub
+- [xorpd reversing exercises](www.xorpd.net/pages/xchg_rax/snip_39.html)
+- https://www.hse.ru/staff/PantiukhinDmitry/timetable
