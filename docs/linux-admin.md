@@ -3,7 +3,7 @@ Usefull links:
 - [Advanced bash scripting](https://youtu.be/uqHjc7hlqd0) and the whole
   [playlist](https://www.youtube.com/playlist?list=PLz0NfPpvHdPEmRWIN06SO_lRv-THMfr-R)
 
-# Lecture 2
+# Lecture 2: Filesystems part I (inodes, links, permissions)
 - TLPI Ch. 14-15
 - [inodes in ext4](https://www.kernel.org/doc/html/latest/filesystems/ext4/inodes.html)
 - [netcat](https://linux.die.net/man/1/nc)
@@ -94,6 +94,7 @@ dd of=/dev/sda <./rx
 диск и мы бы получили оверхерд на запись/чтение с него. Зато именованный канал
 работает in-memory.
 
+## `ls -l`
 Разберем вывод `ls -l`:
 ![ll cheatsheet](img/linux-admin/ll-cheatsheet.png)
 
@@ -105,3 +106,12 @@ dd of=/dev/sda <./rx
 
 `chown` - позволяет менять владельцев и создателей
 
+
+# Lecture 3: Filesystems part II (attributes, history of linux FSs)
+- TLPI Ch. 15
+- TLPI Ch. 9 для SUID, SGID и Sticky
+
+Начнем дальше разбирать вывод `ls`.
+
+Помимо маски с разрешениями (e.g. `drwxr-xr-x`), есть ещё пара атрибутов, а
+именно SUID, SGID,
