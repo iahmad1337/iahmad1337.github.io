@@ -13,7 +13,7 @@
 - [-fpic (ru)](https://habr.com/ru/companies/badoo/articles/324616) & [rip-relative addressing](http://www.codegurus.be/Programming/riprelativeaddressing_en.htm)
 - [GCC vs GLIBCXX vs CXXABI versions](https://gcc.gnu.org/onlinedocs/libstdc++/manual/abi.html)
 - [stripping debug info](https://stackoverflow.com/a/866731/17549962)
-- [determining BTB characteristics](stackoverflow.com/questions/38512886/btb-size-for-haswell-sandy-bridge-ivy-bridge-and-skylake)
+- [determining BTB characteristics](https://stackoverflow.com/questions/38512886/btb-size-for-haswell-sandy-bridge-ivy-bridge-and-skylake)
 - [how bpf works in kernel](https://www.kernel.org/doc/Documentation/networking/filter.txt)
 - [OK cloud netshaper (ru)](https://habr.com/ru/companies/odnoklassniki/articles/572206)
 - [gcc plugin for compilation tracing](https://github.com/royjacobson/externis/tree/main)

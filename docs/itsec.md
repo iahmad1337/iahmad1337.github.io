@@ -1,2 +1,2 @@
-- [xorpd reversing exercises](www.xorpd.net/pages/xchg_rax/snip_39.html)
+- [xorpd reversing exercises](https://www.xorpd.net/pages/xchg_rax/snip_00.html)
 - https://www.hse.ru/staff/PantiukhinDmitry/timetable
