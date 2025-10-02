@@ -108,7 +108,7 @@
               </ul>
             </li>
             
-            <li class="nav-item" data-bs-level="1"><a href="#system" class="nav-link">system</a>
+            <li class="nav-item" data-bs-level="1"><a href="#kernel" class="nav-link">kernel</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -120,6 +120,19 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#git" class="nav-link">git</a>
               <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#cmake" class="nav-link">CMake</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#emitting-disasm-for-the-targets" class="nav-link">Emitting disasm for the targets</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#in-tree-build" class="nav-link">In-tree build</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -259,8 +272,11 @@ ps -efT
 
 # Show all threads named &quot;worker&quot; for user ahamd1337
 ps -u ahmad1337 -fT | grep worker
+
+# Trace all process-related syscalls
+strace -e trace=%process ./runtest.sh
 </code></pre>
-<h1 id="system">system</h1>
+<h1 id="kernel">kernel</h1>
 <pre><code class="language-bash"># check, if kernel was compiled with CONFIG_FTRACE option (/boot/config-* may also be in /proc/config.gz)
 for i in /boot/config-*; do zgrep &quot;CONFIG_FTRACE&quot; &quot;$i&quot;; done
 </code></pre>
@@ -273,6 +289,60 @@ for i in /boot/config-*; do zgrep &quot;CONFIG_FTRACE&quot; &quot;$i&quot;; done
 <h1 id="git">git</h1>
 <pre><code class="language-bash"># status without untracked files
 git status -uno
+
+# case-insensitive search for text in commit messages across all branches
+git log --all --grep='TICKET-228: problem fixed'
+
+# push branch into origin &amp; --set-upstream with the same name
+git push -u origin $(git branch --show-current)
+
+# reset working tree to state HEAD ignoring staged/unstaged changes
+git reset --hard HEAD
+
+# list all branches
+git branch --list
+</code></pre>
+<h1 id="cmake">CMake</h1>
+<h2 id="emitting-disasm-for-the-targets">Emitting disasm for the targets</h2>
+<pre><code class="language-cmake">function(emit_disasm target)
+    set(output ${CMAKE_SOURCE_DIR}/${target}.asm )
+    add_custom_command(
+        TARGET ${target} POST_BUILD
+        BYPRODUCTS ${output}
+        # remove -S to get rid of source lines
+        # --full-contents is needed to see __jmp section
+        # -j .data.rel.ro allows to see vtable contents
+        COMMAND objdump --disassemble -j __jmp -j .text -j .init -j .data.rel.ro -S -Mintel ${CMAKE_BINARY_DIR}/${target} | c++filt &gt;${output}
+        COMMENT &quot;Generating ${output}...&quot;
+    )
+endfunction()
+
+emit_disasm(02-trace-example)
+emit_disasm(03-linkage)
+</code></pre>
+<h2 id="in-tree-build">In-tree build</h2>
+<p>bash:</p>
+<pre><code class="language-bash"># configure
+cmake -S . -B build --install-prefix=$(pwd) -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+# build + install
+cmake --build build --target install
+</code></pre>
+<p>&amp; cmake:</p>
+<pre><code class="language-CMakeLists.txt">add_executable(tee tee.c)
+add_executable(cp cp.cc)
+add_executable(make_hole make_hole.cc)
+add_executable(wc wc.cc)
+
+install(
+    TARGETS
+        tee
+        cp
+        make_hole
+        wc
+    DESTINATION
+        ${CMAKE_CURRENT_LIST_DIR}/bin
+)
 </code></pre></div>
             </div>
         </div>
