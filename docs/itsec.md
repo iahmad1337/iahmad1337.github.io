@@ -1,2 +1,8 @@
 - [xorpd reversing exercises](https://www.xorpd.net/pages/xchg_rax/snip_00.html)
+- osint
+    - https://github.com/netstalking-core/netstalking-osint
+    - https://github.com/OldBonhart/Osint-Resources
+    - https://github.com/sherlock-project/sherlock
+    - https://github.com/stleon/vk_friends
+- https://github.com/HenadziMatuts/linux-crypto-api-tutor
 - https://www.hse.ru/staff/PantiukhinDmitry/timetable

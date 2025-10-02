@@ -137,9 +137,12 @@ ps -efT
 
 # Show all threads named "worker" for user ahamd1337
 ps -u ahmad1337 -fT | grep worker
+
+# Trace all process-related syscalls
+strace -e trace=%process ./runtest.sh
 ```
 
-# system
+# kernel
 ```bash
 # check, if kernel was compiled with CONFIG_FTRACE option (/boot/config-* may also be in /proc/config.gz)
 for i in /boot/config-*; do zgrep "CONFIG_FTRACE" "$i"; done
@@ -157,4 +160,65 @@ for i in /boot/config-*; do zgrep "CONFIG_FTRACE" "$i"; done
 ```bash
 # status without untracked files
 git status -uno
+
+# case-insensitive search for text in commit messages across all branches
+git log --all --grep='TICKET-228: problem fixed'
+
+# push branch into origin & --set-upstream with the same name
+git push -u origin $(git branch --show-current)
+
+# reset working tree to state HEAD ignoring staged/unstaged changes
+git reset --hard HEAD
+
+# list all branches
+git branch --list
 ```
+
+# CMake
+## Emitting disasm for the targets
+```cmake
+function(emit_disasm target)
+    set(output ${CMAKE_SOURCE_DIR}/${target}.asm )
+    add_custom_command(
+        TARGET ${target} POST_BUILD
+        BYPRODUCTS ${output}
+        # remove -S to get rid of source lines
+        # --full-contents is needed to see __jmp section
+        # -j .data.rel.ro allows to see vtable contents
+        COMMAND objdump --disassemble -j __jmp -j .text -j .init -j .data.rel.ro -S -Mintel ${CMAKE_BINARY_DIR}/${target} | c++filt >${output}
+        COMMENT "Generating ${output}..."
+    )
+endfunction()
+
+emit_disasm(02-trace-example)
+emit_disasm(03-linkage)
+```
+
+## In-tree build
+bash:
+```bash
+# configure
+cmake -S . -B build --install-prefix=$(pwd) -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+# build + install
+cmake --build build --target install
+```
+
+& cmake:
+```CMakeLists.txt
+add_executable(tee tee.c)
+add_executable(cp cp.cc)
+add_executable(make_hole make_hole.cc)
+add_executable(wc wc.cc)
+
+install(
+    TARGETS
+        tee
+        cp
+        make_hole
+        wc
+    DESTINATION
+        ${CMAKE_CURRENT_LIST_DIR}/bin
+)
+```
+
