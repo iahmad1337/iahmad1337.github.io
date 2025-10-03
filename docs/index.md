@@ -1,11 +1,16 @@
-# iahmad1337
+
+
+---
+
+## 30.09.2025: Lab 1 Linux Adminitration
+Deadline: 14.10.2025. [Statement](articles/2025-09-30-linux-lab-1.md)
 
 ---
 
 ## 04.12.2024
-[Building clangd from source →](articles/2024-12-04-clangd.md)
+[Building clangd from source](articles/2024-12-04-clangd.md)
 
-[Building python from source →](articles/2024-12-04-python.md)
+[Building python from source](articles/2024-12-04-python.md)
 
 ---
 
