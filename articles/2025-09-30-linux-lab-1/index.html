@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Лабораторная работа № 1. Управление пользователями, группами пользователей и правами на файлы и каталоги в Linux - My Documentation</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">My Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../tlpi/" class="nav-link">Red Eye Club</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../linux-admin/" class="nav-link">Linux Amdinistration</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../itsec/" class="nav-link">Security</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../cheat-sheet/" class="nav-link">Cheat Sheet</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#no-1-linux" class="nav-link">Лабораторная работа № 1. Управление пользователями, группами пользователей и правами на файлы и каталоги в Linux</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">Задачи</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_2" class="nav-link">Подсказки</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_3" class="nav-link">Задание</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="no-1-linux">Лабораторная работа № 1. Управление пользователями, группами пользователей и правами на файлы и каталоги в Linux</h1>
+<h2 id="_1">Задачи</h2>
+<ol>
+<li>
+<p>Научиться создавать, изменять и редактировать учетные записи пользователей и групп пользователей в Linux.</p>
+</li>
+<li>
+<p>научиться задавать атрибуты прав и владения для файлов и каталогов под конкретные задачи</p>
+</li>
+</ol>
+<h2 id="_2">Подсказки</h2>
+<ul>
+<li>В работе используются следующие команды (в дополнение к изученным в предыдущих лабораторных работах): <strong>groupadd, useradd, groupdel, userdel, groupmod, usermod, openssl, chage, chmod, chgrp, chown, groups, id.</strong></li>
+<li>Сведения о пользователях системы и их идентификаторах (UID) хранятся в файле <strong>/etc/passwd</strong></li>
+<li>Для вывода результата работы команды или конвейера команд в новый файл используется конструкция: <strong>command &gt; file</strong></li>
+<li>Для добавления результатов работы команды или конвейера команд в конец существующего файла используется конструкция: <strong>command &gt;&gt; file</strong></li>
+<li>Директория <strong>/etc/skel</strong> содержит копии различных установочных и других файлов, которые могут быть скопированы в новые домашние директории пользователей, когда программа <strong>useradd</strong> добавляет нового пользователя.</li>
+<li>Для шифрования пароля можно использовать команду <strong>openssl passwd</strong> (где passwd это директива команды Openssl, а не пароль). Для того чтобы результат выполнения команды <strong>command2</strong> подставить в значение параметра <strong>p</strong> команды <strong>command1</strong> можно использовать конструкцию: <strong>command1 -p \$(command2)</strong></li>
+<li>Для получения подробного справочного руководства по любой команде можно набрать в консоли «<strong>man название команды</strong>».</li>
+<li>Для удобства работы можно пользоваться одновременно несколькими консолями. На одной консоли читать справочное руководство, на другой редактировать скрипт и т.п. Переключаться между ними можно нажатием комбинации клавиш Ctrl+Alt+Fn, где Fn - функциональная клавиша (F1 - для первой консоли, F2 - для второй, а вот 7-я консоль обычно занята графическим интерфейсом).</li>
+<li>Для временного изменения контекста безопасности в Linux используются утилиты su и sudo. Они позволяют соответственно открыть шелл от имени другого пользователя или запустить команду в с повышенными привилегиями. Для безопасной работы в Linux рекомендуется использовать утилиту sudo. Она временно повышает привилегии до суперпользователя root или дот заданного в конфигурации пользователя. Обычно для использования sudo достаточно поставить пакет sudo и включить пользователя в группу sudo (в Debian) или weel (в CentOS). Существует файл sudoers для более тонкой настройки sudo. Для его редактирования используется редактор visudo, запускаемый от имени root.</li>
+</ul>
+<h2 id="_3">Задание</h2>
+<p>Создать скрипт, который:</p>
+<ol>
+<li>выводит в файл <strong>work3.log</strong> построчно список всех пользователей в системе в
+  следующем формате: «<strong>user NNN has id MM</strong>»;</li>
+<li>добавляет в файл <strong>work3.log</strong> строку, содержащую дату последней смены пароля
+  для пользователя <strong>root</strong>;</li>
+<li>добавляет в файл <strong>work3.log</strong> список всех групп в системе (только названия
+  групп) через запятую;</li>
+<li>делает так, чтобы при создании нового пользователя у него в домашнем каталоге
+  создавался файл <strong>readme.txt</strong> с текстом «<strong>Be careful</strong>!»;</li>
+<li>создает пользователя <strong>u1</strong> с паролем <strong>12345678</strong>;</li>
+<li>создает группу <strong>g1</strong>;</li>
+<li>делает так, чтобы пользователь <strong>u1</strong> дополнительно входил в группу <strong>g1</strong>;</li>
+<li>добавляет в файл <strong>work3.log</strong> строку, содержащую сведения об идентификаторе и
+  имени пользователя <strong>u1</strong> и идентификаторах и именах всех групп, в которые он
+  входит;</li>
+<li>делает так, чтобы пользователь <strong>myuser</strong> дополнительно входил в группу <strong>g1</strong>
+  (если пользователя нет, то создайте его вручную);</li>
+<li>добавляет в файл <strong>work3.log</strong> строку с перечнем пользователей в группе <strong>g1</strong>
+  через запятую;</li>
+<li>делает так, что при входе пользователя <strong>u1</strong> в систему вместо оболочки
+  <strong>bash</strong> автоматически запускается <strong>/usr/bin/mc</strong>, при выходе из которого
+  пользователь возвращается к вводу логина и пароля (если пакета mc нет, то
+  отдельно установите его вручную);</li>
+<li>создает пользователя <strong>u2</strong> с паролем <strong>87654321</strong>;</li>
+<li>в каталоге <strong>/home</strong> создает каталог <strong>test13,</strong> в который копирует файл
+  <strong>work3.log</strong> два раза с разными именами (<strong>work3-1.log</strong> и <strong>work3-2.log</strong>);</li>
+<li>сделает так, чтобы пользователи <strong>u1</strong> и <strong>u2</strong> смогли бы просматривать
+  каталог <strong>test13</strong> и читать эти файлы, только пользователь <strong>u1</strong> смог бы
+  изменять и удалять их, а все остальные пользователи системы не могли
+  просматривать содержимое каталога <strong>test13</strong> и файлов в нем. При этом никто не
+  должен иметь права исполнять эти файлы;</li>
+<li>создает в каталоге <strong>/home</strong> каталог <strong>test14,</strong> в который любой пользователь
+  системы сможет записать данные, но удалить любой файл сможет только
+  пользователь, который его создал или пользователь <strong>u1</strong>;</li>
+<li>копирует в каталог <strong>test14</strong> исполняемый файл редактора <strong>nano</strong> и делает
+  так, чтобы любой пользователь смог изменять с его помощью файлы, созданные в
+  пункте 13;</li>
+<li>создает каталог test15 и создает в нем текстовый файл /test15/secret_file.
+  Делает так, чтобы содержимое этого файла можно было вывести на экран, только
+  зная имя файла, но узнать имена файлов в каталоге кроме как подбором было бы
+  невозможно.</li>
+<li>Настроить sudo таким образом, чтобы пользователь u1 смог с помощью sudo и
+  команды passwd менять пароли другим пользователям, но не смог бы использовать
+  другие утилиты от имени root.</li>
+</ol>
+<p><em>Примечание: задания по права доступа файловой системы надо решать без
+использования расширенных ACL (пакет acl).</em></p>
+<p>Отдельно создать второй скрипт, который полностью уничтожает результаты
+деятельности предыдущего: удаляет созданных пользователей и их домашние
+каталоги, удаляет созданные группы, удаляет все созданные в предыдущем скрипте
+файлы и каталоги.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
