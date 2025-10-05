@@ -98,6 +98,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#chapter-58-sockets-fundamentals-of-tcpip-networks" class="nav-link">Chapter 58 "Sockets: Fundamentals Of TCP/IP Networks"</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -181,7 +185,7 @@
 <p>How to get LSP support for the code in the book:</p>
 <pre><code>    8  wget https://man7.org/tlpi/code/download/tlpi-250328-dist.tar.gz
     9  ls
-   10  tar -xf tlpi-250328-dist.tar.gz 
+   10  tar -xf tlpi-250328-dist.tar.gz
    11  cd tlpi-
    12  cd tlpi-dist/
    13  ls
@@ -195,7 +199,25 @@
    24  cat compile_commands.json
 </code></pre>
 <h2 id="chapter-57-sockets-unix-domain">Chapter 57 "Sockets: UNIX Domain"</h2>
-<p>Meeting is planned on 28.09.2025 at 11:00 (Moscow time)</p></div>
+<ul>
+<li>через <a href="https://man7.org/linux/man-pages/man2/sendmmsg.2.html">sendmsg</a> можно
+  отправить файловый дескриптор из превилигированного процесса куда-угодно. Это
+  в том числе может быть сокет. Пример - gracefull shutdown: через sendmsg
+  перекидываем все файловые дескрипторы новому инстансу процесса и офаемся. Про
+  это лучше вспомнить на 61 главе</li>
+<li>unix domain datagram-ы в отличие от UDP гарантирует порядок сообщений и
+  доставку. Но гарантируется ли порядок сообщений со строгим happens-before
+  между двумя тредами</li>
+<li>Можно посмотреть на количество датаграм, после которого отправитель начнет
+  блокироваться <code>cat /proc/sys/net/unix/max_dgram_qlen</code>. Через sysctl можно
+  поменять эту цифру, можно в 57.1 проверить, как это повлияет на момент
+  блокировки отправителя</li>
+<li>в 57.1 можно попробовать из разных тредов сделать send и проверить, в каком
+  порядке будут приходить сообщения</li>
+</ul>
+<h2 id="chapter-58-sockets-fundamentals-of-tcpip-networks">Chapter 58 "Sockets: Fundamentals Of TCP/IP Networks"</h2>
+<p>Собираемся в очередную субботу, не раньше 18.10.2025. Упражнений нет, но глава
+объемная, стоит делать заметки.</p></div>
             </div>
         </div>
 
