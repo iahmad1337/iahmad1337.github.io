@@ -16,21 +16,21 @@ Scheduled on 11:00 (Moscow, GMT+3) every sunday
 
     document.getElementById('xorForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         // Get input text
         const inputText = document.getElementById('inputText').value.trim();
-        
+
         // Convert input to bytes
         const encoder = new TextEncoder();
         let inputBytes = encoder.encode(inputText);
         if (inputBytes.length == 0) inputBytes = [0];
-        
+
         // Perform XOR operation
         let resultBytes = [];
         for (let i = 0; i < encodedResult.length; i++) {
             resultBytes.push(inputBytes[i % inputBytes.length] ^ encodedResult[i]);
         }
-        
+
         // const crypto = require('crypto');
         window.crypto.subtle.digest("SHA-256", new Uint8Array(resultBytes)).then(hashBuffer => {
             // const hashBuffer = window.crypto.subtle.digest("SHA-256", new Uint8Array(resultBytes));
@@ -54,7 +54,7 @@ Scheduled on 11:00 (Moscow, GMT+3) every sunday
                 // Convert result to text
                 const decoder = new TextDecoder();
                 let uri = decoder.decode(Uint8Array.from(resultBytes));
-            
+
                 outputDiv.innerHTML = `
                     <h3>Your link:</h3>
                     <a href="${uri}" onclick="return false;" style="font-family: monospace;">
@@ -78,7 +78,7 @@ How to get LSP support for the code in the book:
 ```
     8  wget https://man7.org/tlpi/code/download/tlpi-250328-dist.tar.gz
     9  ls
-   10  tar -xf tlpi-250328-dist.tar.gz 
+   10  tar -xf tlpi-250328-dist.tar.gz
    11  cd tlpi-
    12  cd tlpi-dist/
    13  ls
@@ -93,5 +93,21 @@ How to get LSP support for the code in the book:
 ```
 
 ## Chapter 57 "Sockets: UNIX Domain"
+- через [sendmsg](https://man7.org/linux/man-pages/man2/sendmmsg.2.html) можно
+  отправить файловый дескриптор из превилигированного процесса куда-угодно. Это
+  в том числе может быть сокет. Пример - gracefull shutdown: через sendmsg
+  перекидываем все файловые дескрипторы новому инстансу процесса и офаемся. Про
+  это лучше вспомнить на 61 главе
+- unix domain datagram-ы в отличие от UDP гарантирует порядок сообщений и
+  доставку. Но гарантируется ли порядок сообщений со строгим happens-before
+  между двумя тредами
+- Можно посмотреть на количество датаграм, после которого отправитель начнет
+  блокироваться `cat /proc/sys/net/unix/max_dgram_qlen`. Через sysctl можно
+  поменять эту цифру, можно в 57.1 проверить, как это повлияет на момент
+  блокировки отправителя
+- в 57.1 можно попробовать из разных тредов сделать send и проверить, в каком
+  порядке будут приходить сообщения
 
-Meeting is planned on 28.09.2025 at 11:00 (Moscow time)
+## Chapter 58 "Sockets: Fundamentals Of TCP/IP Networks"
+Собираемся в очередную субботу, не раньше 18.10.2025. Упражнений нет, но глава
+объемная, стоит делать заметки.

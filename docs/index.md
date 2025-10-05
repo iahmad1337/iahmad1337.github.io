@@ -1,9 +1,15 @@
 
-
 ---
 
-## 30.09.2025: Lab 1 Linux Adminitration
-Deadline: 14.10.2025. [Statement](articles/2025-09-30-linux-lab-1.md)
+## 05.10.2025: Labs 1-6 Linux Administration
+1. Deadline: 14.10.2025. [Statement](assets/admin-lab1-2025.pdf)
+1. Deadline: 28.10.2025. [Statement](assets/admin-lab2-2025.pdf)
+1. Deadline: 11.11.2025. [Statement](assets/admin-lab3-2025.pdf)
+1. Deadline: 25.11.2025. [Statement](assets/admin-lab4-2025.pdf)
+1. Deadline: 09.12.2025. [Statement](assets/admin-lab5-2025.pdf)
+1. Deadline: 23.12.2025. [Statement](assets/admin-lab6-2025.pdf)
+
+Practice is scheduled on every tuesday at 20:00
 
 ---
 
