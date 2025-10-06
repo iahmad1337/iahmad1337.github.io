@@ -99,6 +99,14 @@
             
             <li class="nav-item" data-level="1"><a href="#lecture-3-filesystems-part-ii-attributes-history-of-linux-fss" class="nav-link">Lecture 3: Filesystems part II (attributes, history of linux FSs)</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">Аттрибуты файлов</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_2" class="nav-link">Файловые системы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -207,12 +215,44 @@ dd of=/dev/sda &lt;./rx
 <p><code>chown</code> - позволяет менять владельцев и создателей</p>
 <h1 id="lecture-3-filesystems-part-ii-attributes-history-of-linux-fss">Lecture 3: Filesystems part II (attributes, history of linux FSs)</h1>
 <ul>
-<li>TLPI Ch. 15</li>
-<li>TLPI Ch. 9 для SUID, SGID и Sticky</li>
+<li>TLPI Ch. 15.4 для Sticky Bits</li>
+<li>TLPI Ch. 9.5 для SUID, SGID</li>
+<li>TLPI Ch. 15 для атрибутов</li>
+<li><a href="https://linux.die.net/man/1/chattr">chattr</a></li>
+<li>TLPI Ch. 14.5 для VFS</li>
 </ul>
 <p>Начнем дальше разбирать вывод <code>ls</code>.</p>
 <p>Помимо маски с разрешениями (e.g. <code>drwxr-xr-x</code>), есть ещё пара атрибутов, а
-именно SUID, SGID,</p></div>
+именно SUID, SGID и Sticky Bit.</p>
+<p>Если установлен SUID (Saved Set-User-ID), то программа запускается с правами не пользователя её
+запустившего, а с правами владельца (owner). При таком раскладе желательно
+запретить запись (w) всем, кроме владельца файла, т.е. <code>-rwxr-xr-x</code>.</p>
+<p>Если установлен SGID (Saved Set-Group-ID), то программа запускается с правами группы создателя TODO</p>
+<p>Если для <em>обычного фалйа</em> установлен Sticky Bit, то в старых версиях линукса код программы не будет
+выгружаться из оперативки и переиспользуется; в новых версиях ядра этот бит
+ничего не значит. Если sticky bit установлен для <em>директории</em>, то удалять файлы
+из неё сможет только создатель/root.</p>
+<h2 id="_1">Аттрибуты файлов</h2>
+<p>Примеры:
+- <code>chattr +i file.txt</code> заставит ядро спрашивать разрешения на удаление
+файла
+- <code>+a</code> разрешит только аппендить в файл, но не перезаписывать
+- <code>+j</code> включить журналирование файловой системы для этого конкретного файла
+- <code>+S</code> заставить ФС писать сквозь кеш сразу на диск
+- <code>+s</code> при удалении, замещать все байты файла нулями (аналог shred)</p>
+<h2 id="_2">Файловые системы</h2>
+<p>VFS абстрагирует нас от устройства конкретной ФС, реализуя общее API системных вызовов для
+работы с ней.</p>
+<p>Условный <code>/dev/sda1</code> представляет собой пронумерованную последовательностью блоков. Особенность
+ФС - в том, как она организует работу с этими блоками.</p>
+<p><em>Рассказ про устройство ФС на основе связного списка и FAT</em></p>
+<p><a href="https://en.wikipedia.org/wiki/Extended_file_system">Устройство ext-файловых
+систем</a> - лучше почитать
+отдельно и сюда основные поинты вынести. TODO: отличия друг от друга. Полезно
+будет использовать флаг поиска "before:2005"</p>
+<p>TODO: устройство i-node и суперблока</p>
+<p><img alt="ext4 inode" src="../img/linux-admin/inode-ext4.jpg" title="ext4 inode diagram" /></p>
+<p>TODO: оверхед на создание ФС, удаление большого файла.</p></div>
             </div>
         </div>
 
