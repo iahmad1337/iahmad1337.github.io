@@ -31,3 +31,7 @@ Practice is scheduled on every tuesday at 20:00
 - [easyperf](https://easyperf.net)
     - [memory profiling series](https://easyperf.net/blog/2024/02/12/Memory-Profiling-Part1)
     - [static perf analysis visualization](https://easyperf.net/blog/2022/05/11/Visualizing-Performance-Critical-Dependency-Chains)
+- Good cheatsheets on [efalk.org](https://www.efalk.org/)
+    - [curses](https://www.efalk.org/Docs/Curses/)
+    - [git](https://www.efalk.org/Docs/Git/)
+    - [linux drivers](https://www.efalk.org/Docs/Linux/)
