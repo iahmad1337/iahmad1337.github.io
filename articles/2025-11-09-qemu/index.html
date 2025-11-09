@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Clangd LSP - My Documentation</title>
+        <title>2025 11 09 qemu - My Documentation</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -75,12 +75,30 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#clangd-lsp" class="nav-link">Clangd LSP</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#compilation-database" class="nav-link">Compilation database</a>
+            <li class="nav-item" data-bs-level="1"><a href="#1-installing-kvm" class="nav-link">1. Installing kvm</a>
               <ul class="nav flex-column">
               </ul>
             </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#2-bridge-nat-networking" class="nav-link">2. bridge &amp; NAT networking</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#21-nat" class="nav-link">2.1 NAT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#22-bridged-networks" class="nav-link">2.2 Bridged networks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#further-reading" class="nav-link">Further reading</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#3-snapshots" class="nav-link">3. Snapshots</a>
+              <ul class="nav flex-column">
               </ul>
             </li>
         </ul>
@@ -88,73 +106,82 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="clangd-lsp">Clangd LSP</h1>
-<p>Prebuilt packages didn't work, so I had to build it from source:</p>
+<p>Based on <a href="https://www.youtube.com/playlist?list=PLqKkf220xDDbW9G0a4XXO50yvHWFq2uOD">playlist</a></p>
+<h1 id="1-installing-kvm">1. Installing kvm</h1>
+<p><a href="https://youtu.be/vyLNpPY-Je0">video</a></p>
+<pre><code class="language-bash"># Confirm, that there is virtualization support on your platform
+lscpu | grep Virtualization
+
+sudo apt install qemu-kvm
+sudo apt install libvirt-daemon-system libvirt-clients
+
+sudo adduser $USER kvm
+
+# [optional] gui
+sudo apt install virt-manager
+</code></pre>
+<h1 id="2-bridge-nat-networking">2. bridge &amp; NAT networking</h1>
+<p><a href="ihttps://youtu.be/DYpaX4BnNlg">video</a></p>
+<h2 id="21-nat">2.1 NAT</h2>
+<p>NAT - when guest cannot access the local network of the host machine, it can
+only access the internet through NAT (address translation happens on the host
+machine, not on the router).</p>
+<p><img alt="nat diagram" src="../../img/nat-diagram.png" /></p>
+<p>Let's look, how the network interfaces look on host (<code>ip addr</code>). Default network
+configuration is the following:</p>
 <ul>
-<li>https://llvm.org/docs/GettingStarted.html</li>
-<li>take source code from a tar.gz here: https://github.com/llvm/llvm-project/releases</li>
-<li>How to build just clangd: https://github.com/llvm/llvm-project/tree/main/clang-tools-extra/clangd#building-and-testing-clangd</li>
-<li>buildiing llvm from source details: https://llvm.org/docs/CMake.html</li>
+<li>virt-manager acts as a virtual router with NAT enabled</li>
+<li>all guests reside in the same local network under this router (see <code>ip addr</code>
+  output to determine the local IP), and can see each other</li>
+<li>physical host is not visible in this virtual network and is unreachable from
+  guests. And vice-versa: host cannot reach the virtual network</li>
+<li><code>virbr0</code> device stands for <em>VIRtual BRidge number 0</em> a.k.a. virtual switch.
+  <code>virbr0-nic</code> - is just a virtual network card (Network Interface Controller),
+  which is connected to this bridge.</li>
+<li>for each VM we will see <code>vnet0</code>...<code>vnetN</code> - these are virtual NICs of each
+  guest</li>
 </ul>
-<p>TL;DR:</p>
-<pre><code class="language-bash"># get the llvm source
-wget https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-12.0.1.tar.gz
-tar -xf llvmorg-12.0.1.tar.gz
+<p>Now, let's look at brctl:</p>
+<pre><code class="language-bash">sudo apt install bridge-utils
 
-# use the latest gcc and cmake just in case
-source /opt/rh/devtoolset-11/enable
-wget https://github.com/Kitware/CMake/releases/download/v3.31.0/cmake-3.31.0-linux-x86_64.tar.gz
-tar -xf cmake-3.31.0-linux-x86_64.tar.gz
-export PATH=$(pwd)/cmake-3.31.0-linux-x86_64/bin:$PATH
-
-# prepare the build files in llvm-12-build/ directory
-mkdir -p llvm-12-build/
-cmake \
-    -S llvm-project-llvmorg-12.0.1/llvm \
-    -B llvm-12-build \
-    -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=$HOME/programs/llvm-12-install \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    -DBUILD_SHARED_LIBS=on\
-    -DLLVM_ENABLE_PROJECTS=&quot;clang;clang-tools-extra&quot; \
-    -DLLVM_TARGETS_TO_BUILD=&quot;host&quot; \
-    -DLLVM_PARALLEL_LINK_JOBS=1 \
-    -DLLVM_PARALLEL_COMPILE_JOBS=4
-
-# Explanation:
-# - -DLLVM_ENABLE_PROJECTS=&quot;clang;clang-tools-extra&quot; is needed for clangd to be
-#   built
-# - -DLLVM_PARALLEL_LINK_JOBS=1 is used to avoid linker OOM death
-
-# do the build
-ninja -C llvm-12-build/ clangd
-
-# do the installation
-cd llvm-12-build
-cmake --build . --target install
-
-# add binaries to path
-cd ../llvm-12-install/bin
-for i in clang*; do ln -s $(realpath $i) ~/.local/bin/$i; done
+brctl show
 </code></pre>
-<p>The build lasted for 2-3 hours; installation also took quite a bit of time (~1 hour).</p>
-<p>You can track the elapsed time with this script:</p>
-<pre><code class="language-bash">start=$(date +%s); while pidof ninja &amp;&gt;/dev/null; do sleep 30;  cur=$(date +%s); echo &quot;seconds elapsed $((cur - start))&quot;; done
-</code></pre>
-<h2 id="compilation-database">Compilation database</h2>
-<p>To generate, do</p>
-<pre><code class="language-bash">cmake -S $src -B $bld -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-cp $bld/compile_commands.json $src
-</code></pre>
-<p>The raw <code>compile_commands.json</code> may not work out of the box, as some flags are
-redundant/missing. Here's a fix:</p>
-<pre><code class="language-bash">compile-commands -v --file ./compile_commands.json --add_flags='-std=c++17'
-sed -i &quot;/no-extended-identifiers/d&quot; ./compile_commands.json
-</code></pre>
-<p>The <code>compile-commands</code> utility can be installed via <code>pip3 install compile-commands</code>
-(note that the minimum required python version is 3.8).</p>
-<p>And that's it!</p></div>
+<p>We will see that all the VMs can see each other since they connect to the same
+virtual bridge virbr0. If we want the guests to not see each other, we can put
+them in different networks.</p>
+<p>Okay, but what if we want the host and guest to see each other...</p>
+<h2 id="22-bridged-networks">2.2 Bridged networks</h2>
+<p><strong>Warning</strong>: bridging with wireless connection is way more complicated than with
+ethernet cable. See <a href="https://www.reddit.com/r/linuxquestions/comments/1ezel5i/trying_to_bridge_a_virtual_machine_to_a_wireless/">this reddit
+post</a>
+and the linked <a href="https://hacktivate.it/posts/kvm-bridge-wireless/">solution</a></p>
+<p>Unlike NAT, with bridged network we don't have a virtual router. Instead, we use
+a virtual switch, to which we connect all the guests and the host. The result is
+following:</p>
+<ul>
+<li>Each guest is seen as a separate machine on our home router LAN</li>
+<li>each guest receives its IP via DHCP from the home router</li>
+<li>host is still seen as a separate machine on LAN with its own IP leased via
+  DHCP</li>
+</ul>
+<p>The bridge network can be configured via nmtui: <a href="https://youtu.be/DYpaX4BnNlg?t=546">timecode</a></p>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li><a href="https://docs.redhat.com/en/documentation/red_hat_virtualization/4.4/html/technical_reference/network_interface_controller_nic">NIC</a> (rhel)</li>
+<li><a href="https://wiki.qemu.org/Documentation/Networking">Qemu network setup</a></li>
+</ul>
+<h1 id="3-snapshots">3. Snapshots</h1>
+<p><a href="https://youtu.be/1SDvth66i-4">video</a></p>
+<p>UEFI-based VM snapshots work out of the box, they are called <em>external
+snapshots</em> and are designed akin to git commits: we only store an image delta and need
+all of the intermediate deltas to be present.</p>
+<p>For BIOS-based VMs though, to create snapshots, you'll have to switch loader
+type from <code>pflash</code> to <code>rom</code>. If you then want your VM to boot, the loader will
+have to be switched back to <code>pflash</code>. This type of snapshotting technique is
+call <em>internal snapshots</em>.</p>
+<p>On one hand, internal snapshots may take a lot of memory. On the other hand,
+external snapshots need to have the base image ("backing store") and all of the
+intermediate deltas present, making this approach fault intollerant.</p></div>
             </div>
         </div>
 
