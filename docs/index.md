@@ -1,6 +1,11 @@
 
 ---
 
+## 09.11.2025: learning qemu
+[Using qemu for the first time](articles/2025-11-09-qemu.md)
+
+---
+
 ## 05.10.2025: Labs 1-6 Linux Administration
 1. Deadline: 14.10.2025. [Statement](assets/admin-lab1-2025.pdf)
 1. Deadline: 28.10.2025. [Statement](assets/admin-lab2-2025.pdf)
