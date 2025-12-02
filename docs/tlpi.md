@@ -111,3 +111,15 @@ How to get LSP support for the code in the book:
 ## Chapter 58 "Sockets: Fundamentals Of TCP/IP Networks"
 Собираемся в очередную субботу, не раньше 18.10.2025. Упражнений нет, но глава
 объемная, стоит делать заметки.
+
+## Chapter 13
+- Можно ли задать размер кастомный buffer cache?
+- Будет ли buffer cache общий для всех контейнеров или один на все контейнеры?
+- Какое поведение posix_fadvice в MacOS, отличия от поведения в linux
+- direct io_uring - отличие от open(O_DIRECT)
+- https://www.phoronix.com/news/Linux-RWF_UNCACHED-2024 - мидл граунд между
+  O_DIRECT и O_SYNC
+- aio - сильно ограничен, лучше io_uring по возможности/blocking write-read (на
+  тредпул)
+- какой юзкейс можно придумать для fdatasync, чтобы он был лучше fsync? Причем
+  тут hdd/ssd?

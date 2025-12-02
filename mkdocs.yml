@@ -5,4 +5,6 @@ nav:
   - Linux Amdinistration: linux-admin.md
   - Security: itsec.md
   - Cheat Sheet: cheat-sheet.md
-  # - Garage Sale: garage-sale.md
+markdown_extensions:
+  - admonition
+  - footnotes

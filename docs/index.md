@@ -1,12 +1,33 @@
+## Articles
+
+TODO:
+
+- distributing a cmake-based library (cmake + pkg-config enabled)
+- using ccache
 
 ---
 
-## 09.11.2025: learning qemu
+### 24.11.2025: building libs
+[Building libraries from source](articles/2025-11-24-cmake-libs.md)
+
+---
+
+### 09.11.2025: learning qemu
 [Using qemu for the first time](articles/2025-11-09-qemu.md)
 
 ---
 
-## 05.10.2025: Labs 1-6 Linux Administration
+### 13.10.2025: Скалолазание
+- ТБ на скалодроме [vk](https://vksport.vkvideo.ru/video-208088214_456239058)
+- Виды страховочных устройств [vk](https://vkvideo.ru/video-38349928_456239533)
+- 6 полезных узлов в альпинизме [vk](https://vkvideo.ru/video-57322870_456239421)
+- Тестирования булиня на разрыв [vk](https://vkvideo.ru/playlist/-108934135_7/video-108934135_456239282)
+- Методичка по узлам для спортивных туристов [pdf](https://centrtur-tlt.ru/data/documents/Metod_razrabotka_-_UZLY.pdf)
+- [Базовые знания о веревках](https://web.archive.org/web/20200727141750/https://vento.ru/articles/bazovye-znaniya-o-verevkah#expand)
+
+---
+
+### 05.10.2025: Labs 1-6 Linux Administration
 1. Deadline: 14.10.2025. [Statement](assets/admin-lab1-2025.pdf)
 1. Deadline: 28.10.2025. [Statement](assets/admin-lab2-2025.pdf)
 1. Deadline: 11.11.2025. [Statement](assets/admin-lab3-2025.pdf)
@@ -18,7 +39,7 @@ Practice is scheduled on every tuesday at 20:00
 
 ---
 
-## 04.12.2024
+### 04.12.2024
 [Building clangd from source](articles/2024-12-04-clangd.md)
 
 [Building python from source](articles/2024-12-04-python.md)
@@ -40,3 +61,7 @@ Practice is scheduled on every tuesday at 20:00
     - [curses](https://www.efalk.org/Docs/Curses/)
     - [git](https://www.efalk.org/Docs/Git/)
     - [linux drivers](https://www.efalk.org/Docs/Linux/)
+- cheat sheets on any topic: [cheat-sheets.org](https://cheat-sheets.org)
+    - [c++](https://cheat-sheets.org/#CPP)
+    - [asm](https://cheat-sheets.org/#AssemblyLanguage)
+    - [cs](https://cheat-sheets.org/#ComputerScience)

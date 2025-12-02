@@ -42,6 +42,8 @@ nm my-test-executable | grep SpecificTest | c++filt
 
 # List all files, opened by PID
 lsof -p <PID>
+# list all tcp ports opened ever
+sudo lsof -i TCP
 
 # get environ of a process
 strings /proc/<PID>/environ
@@ -196,7 +198,7 @@ emit_disasm(03-linkage)
 
 ## In-tree build
 bash:
-```bash
+```cmake
 # configure
 cmake -S . -B build --install-prefix=$(pwd) -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
@@ -205,7 +207,7 @@ cmake --build build --target install
 ```
 
 & cmake:
-```CMakeLists.txt
+```cmake
 add_executable(tee tee.c)
 add_executable(cp cp.cc)
 add_executable(make_hole make_hole.cc)
