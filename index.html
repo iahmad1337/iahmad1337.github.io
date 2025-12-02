@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,15 +10,14 @@
         <link rel="shortcut icon" href="img/favicon.ico">
         <title>My Documentation</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/fontawesome.min.css" rel="stylesheet">
-        <link href="css/brands.min.css" rel="stylesheet">
-        <link href="css/solid.min.css" rel="stylesheet">
-        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body class="homepage">
@@ -26,7 +25,7 @@
             <div class="container">
                 <a class="navbar-brand" href=".">My Documentation</a>
                 <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -34,26 +33,26 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="." class="nav-link active" aria-current="page">Home</a>
+                            <li class="navitem active">
+                                <a href="." class="nav-link">Home</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="navitem">
                                 <a href="tlpi/" class="nav-link">Red Eye Club</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="navitem">
                                 <a href="linux-admin/" class="nav-link">Linux Amdinistration</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="navitem">
                                 <a href="itsec/" class="nav-link">Security</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="navitem">
                                 <a href="cheat-sheet/" class="nav-link">Cheat Sheet</a>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ms-md-auto">
+                    <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -74,33 +73,23 @@
 
         <div class="container">
             <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
             <span class="fa fa-angle-down"></span>
         </button>
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="2"><a href="#09112025-learning-qemu" class="nav-link">09.11.2025: learning qemu</a>
+            <li class="nav-item" data-level="2"><a href="#articles" class="nav-link">Articles</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             
-            <li class="nav-item" data-bs-level="2"><a href="#05102025-labs-1-6-linux-administration" class="nav-link">05.10.2025: Labs 1-6 Linux Administration</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="2"><a href="#04122024" class="nav-link">04.12.2024</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="2"><a href="#to-read-list" class="nav-link">To-Read list</a>
+            <li class="nav-item" data-level="2"><a href="#to-read-list" class="nav-link">To-Read list</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -109,11 +98,30 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
+<h2 id="articles">Articles</h2>
+<p>TODO:</p>
+<ul>
+<li>distributing a cmake-based library (cmake + pkg-config enabled)</li>
+<li>using ccache</li>
+</ul>
 <hr />
-<h2 id="09112025-learning-qemu">09.11.2025: learning qemu</h2>
+<h3 id="24112025-building-libs">24.11.2025: building libs</h3>
+<p><a href="articles/2025-11-24-cmake-libs/">Building libraries from source</a></p>
+<hr />
+<h3 id="09112025-learning-qemu">09.11.2025: learning qemu</h3>
 <p><a href="articles/2025-11-09-qemu/">Using qemu for the first time</a></p>
 <hr />
-<h2 id="05102025-labs-1-6-linux-administration">05.10.2025: Labs 1-6 Linux Administration</h2>
+<h3 id="13102025">13.10.2025: Скалолазание</h3>
+<ul>
+<li>ТБ на скалодроме <a href="https://vksport.vkvideo.ru/video-208088214_456239058">vk</a></li>
+<li>Виды страховочных устройств <a href="https://vkvideo.ru/video-38349928_456239533">vk</a></li>
+<li>6 полезных узлов в альпинизме <a href="https://vkvideo.ru/video-57322870_456239421">vk</a></li>
+<li>Тестирования булиня на разрыв <a href="https://vkvideo.ru/playlist/-108934135_7/video-108934135_456239282">vk</a></li>
+<li>Методичка по узлам для спортивных туристов <a href="https://centrtur-tlt.ru/data/documents/Metod_razrabotka_-_UZLY.pdf">pdf</a></li>
+<li><a href="https://web.archive.org/web/20200727141750/https://vento.ru/articles/bazovye-znaniya-o-verevkah#expand">Базовые знания о веревках</a></li>
+</ul>
+<hr />
+<h3 id="05102025-labs-1-6-linux-administration">05.10.2025: Labs 1-6 Linux Administration</h3>
 <ol>
 <li>Deadline: 14.10.2025. <a href="assets/admin-lab1-2025.pdf">Statement</a></li>
 <li>Deadline: 28.10.2025. <a href="assets/admin-lab2-2025.pdf">Statement</a></li>
@@ -124,7 +132,7 @@
 </ol>
 <p>Practice is scheduled on every tuesday at 20:00</p>
 <hr />
-<h2 id="04122024">04.12.2024</h2>
+<h3 id="04122024">04.12.2024</h3>
 <p><a href="articles/2024-12-04-clangd/">Building clangd from source</a></p>
 <p><a href="articles/2024-12-04-python/">Building python from source</a></p>
 <hr />
@@ -148,6 +156,12 @@
 <li><a href="https://www.efalk.org/Docs/Linux/">linux drivers</a></li>
 </ul>
 </li>
+<li>cheat sheets on any topic: <a href="https://cheat-sheets.org">cheat-sheets.org</a><ul>
+<li><a href="https://cheat-sheets.org/#CPP">c++</a></li>
+<li><a href="https://cheat-sheets.org/#AssemblyLanguage">asm</a></li>
+<li><a href="https://cheat-sheets.org/#ComputerScience">cs</a></li>
+</ul>
+</li>
 </ul></div>
             </div>
         </div>
@@ -156,20 +170,19 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="js/bootstrap.bundle.min.js"></script>
         <script>
             var base_url = ".",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js"></script>
-        <script src="search/main.js"></script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
                 <p>From here you can search these documents. Enter your search terms below.</p>
@@ -189,7 +202,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
               <table class="table">
@@ -229,6 +242,6 @@
 </html>
 
 <!--
-MkDocs version : 1.6.1
-Build Date UTC : 2025-11-09 17:30:23.864616+00:00
+MkDocs version : 1.4.2
+Build Date UTC : 2025-12-02 00:42:22.796603+00:00
 -->

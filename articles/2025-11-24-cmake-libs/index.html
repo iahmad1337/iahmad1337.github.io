@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>2025 11 24 cmake libs - My Documentation</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">My Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../tlpi/" class="nav-link">Red Eye Club</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../linux-admin/" class="nav-link">Linux Amdinistration</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../itsec/" class="nav-link">Security</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../cheat-sheet/" class="nav-link">Cheat Sheet</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="2"><a href="#key-concepts" class="nav-link">Key-concepts</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#general-workflow" class="nav-link">General workflow</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#using-the-installed-libraries" class="nav-link">Using the installed libraries</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#uninstalling-the-libraries" class="nav-link">Uninstalling the libraries</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#real-world-examples" class="nav-link">Real-world examples</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#miscellany" class="nav-link">Miscellany</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="key-concepts">Key-concepts</h2>
+<ul>
+<li><em>install prefix</em> (or just <em>prefix</em>) - the base directory for installation of
+  your software package. The most notable examples are <code>/</code>, <code>/usr</code>, <code>/usr/local</code> and <code>~/.local</code></li>
+<li>Env variables:<ul>
+<li><em>PATH</em> - paths for binary lookups. Example: <code>PATH=/usr/sbin:/usr/local/bin:/usr/bin:/bin</code></li>
+<li><em>LD_LIBRARY_PATH</em> - paths for static library lookup during linkage.
+  Example: if we want to use <code>-lcublas</code> linker flag, we have to do something
+  like this <code>LD_LIBRARY_PATH=/usr/local/cuda-12.9/lib64:</code></li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Environment-Variables.html">and others</a></li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard">Filesystem Hierarchy
+  Standard</a> -
+  how your typical UNIX filesystem is organized</li>
+</ul>
+<h2 id="general-workflow">General workflow</h2>
+<ol>
+<li>Download source code</li>
+<li>Install the dependencies and build tools (make, cmake, autotools, etc.)</li>
+<li>Configure step: most of the software needs to find the toolchain and prepare
+   the ground work before any building/installation. Examples: <code>./configure</code> in
+   autoconf, <code>cmake $SOURCE</code> in cmake-based projects, and <code>./bootstrap.sh</code> in
+   boost</li>
+<li>Build step: build whatever the targets you need. Examples: <code>make all</code>, <code>ninja all</code></li>
+<li>[Optional] Testing: mostly used by the project developers themselves, but we
+   can do it too. Example: <code>make test</code> in build dir</li>
+<li>Install step: after build, we need to place libraries/headers/etc. into
+   a common place. The most common way the installation is done is by you
+   providing an install prefix (<code>$prefix</code> from now on) during configure step and
+   then building target <code>install</code> - this results in
+   <code>$prefix/{include,lib,bin,...}</code> being populated with the library artifacts</li>
+</ol>
+<h2 id="using-the-installed-libraries">Using the installed libraries</h2>
+<p>In order to build our binary, we have to tell the compiler where to search for
+library headers using <code>-I</code> flag, and where to search for static/dynamic libs via
+<code>-L</code> flag or LD_LIBRARY_PATH env variable<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">1</a></sup></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>-I</code> flags are also crucial for proper IDE functioning: if the IDE doesn't
+know where to look for includes, it won't provide autocompletion, go-to
+declaration, static analysis etc.</p>
+</div>
+<p>Now, how do we determine the compile flags?</p>
+<h3 id="method-1-brute-force">Method #1: brute-force</h3>
+<p>Suppose we used <code>/usr/local</code> as build prefix for boost<sup id="fnref:0"><a class="footnote-ref" href="#fn:0">2</a></sup>. Then, we can
+search all of the containing folders for any boost-related libs and pass them to
+linker via <code>-l</code> flags in hopes that</p>
+<h3 id="method-2-pkg-config">Method #2: pkg-config</h3>
+<p>pkg-config<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">4</a></sup>-enabled libraries basically provide all of the flags needed for
+compilation in <code>$prefix/libs/pkg-config</code>. All you have to do is call
+<code>pkg-config --libs --cflags &lt;library name&gt;</code>.</p>
+<h3 id="method-3-prefixlibcmakecmake">Method #3: $prefix/lib/cmake/&ast;.cmake</h3>
+<p>Cmake-based libraries provide these files so you could just do this in your
+CMakeLists:</p>
+<pre><code class="language-CMakeLists.txt">find_package(GTest)
+...
+target_link_libraries(test GTest::gtest_main)
+</code></pre>
+<p>But, we can also use them to infer flags for cmake-less compilation</p>
+<h2 id="uninstalling-the-libraries">Uninstalling the libraries</h2>
+<p>Some popular methods<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">3</a></sup>:</p>
+<h4 id="method-1-make-uninstall">Method #1: make uninstall</h4>
+<p>If we're lucky, the Makefile/ninja.build will have the uninstall target that
+reverts all the installation step.</p>
+<h4 id="method-2-checkinstall">Method #2: checkinstall</h4>
+<p>We can generate a <code>.deb</code>/<code>.rpm</code> package by calling <code>checkinstall &lt;install
+command&gt;</code> in build root. We then can just use <code>dpkg -i package.deb</code>/<code>dpkg -t package.deb</code>.
+It would basically work the same as <code>apt install</code>/<code>apt purge</code></p>
+<p>Random examples on github:</p>
+<ul>
+<li><a href="https://github.com/erichs/bootnukem/blob/f5221f946f9f9306d46a2a6b1e5a340ad82d3ee6/build_deb.sh#L2C35-L4C144">install.sh</a></li>
+<li><a href="https://github.com/scaryguy/jwthumbs/blob/0ca7b8384716435eecbc1499702770e66278cc94/ffmpeg.sh#L14">make install</a></li>
+<li><a href="https://github.com/efficient/catbench/blob/4f66541efd8318109c4ac150898d60f023e7aba5/setup/package#L17">make install install-doc</a></li>
+</ul>
+<h4 id="method-3-install_manifesttxt-cmake-based-projects">Method #3: install_manifest.txt (cmake-based projects)</h4>
+<p>cmake lists all of the installed files in <code>$BUILD_ROOT/install_manifest.txt</code>,
+and so uninstalling can be simply done with <code>xargs rm &lt;install_manifest.txt</code><sup id="fnref:4"><a class="footnote-ref" href="#fn:4">5</a></sup></p>
+<h2 id="real-world-examples">Real-world examples</h2>
+<h3 id="case-study-1-abseil-cpp-boost">Case-study #1: abseil-cpp &amp; boost</h3>
+<p>Default prefix for user installed dirs is <code>/usr/local</code>. Installing
+<a href="https://abseil.io/">abseil-cpp</a>:</p>
+<pre><code class="language-bash">git clone git@github.com:abseil/abseil-cpp.git
+cd abseil-cpp
+mkdir build
+cd build
+
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local
+
+make -j8
+sudo make install
+</code></pre>
+<p>And boost:</p>
+<pre><code>git clone git@github.com:boostorg/boost.git
+cd boost/
+git tag -l
+git co boost-1.89.0
+git submodule update --init
+./bootstrap.sh
+sudo ./b2 install -j 10 --prefix=/usr/local
+</code></pre>
+<p>Now, let's compile the following code</p>
+<pre><code class="language-c++">#include &lt;absl/strings/str_format.h&gt;
+#include &lt;boost/format.hpp&gt;
+#include &lt;boost/url/parse.hpp&gt;
+#include &lt;iostream&gt;
+
+
+int main(int argc, char** argv) {
+    std::cout &lt;&lt; boost::format(&quot;Hello from %1%&quot;) % argv[0] &lt;&lt; std::endl;
+    std::cout &lt;&lt; absl::StrFormat(&quot;Hi from absl %s&quot;, argv[0]) &lt;&lt; std::endl;
+    auto result = boost::urls::parse_uri(&quot;http://example.com&quot;);
+    std::cout &lt;&lt; result-&gt;scheme() &lt;&lt; std::endl;
+}
+</code></pre>
+<p>the most straightforward way is <code>g++ -std=c++2b -g main.cc -o a.out</code>, but we get
+this:</p>
+<pre><code>$ g++ -std=c++2b -g main.cc -o a.out
+/usr/bin/ld: /tmp/ccqvfnzh.o: in function `main':
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.cc:10: undefined reference to `boost::urls::parse_uri(boost::core::basic_string_view&lt;char&gt;)'
+/usr/bin/ld: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.cc:11: undefined reference to `boost::urls::url_view_base::scheme() const'
+/usr/bin/ld: /tmp/ccqvfnzh.o: in function `std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; absl::StrFormat&lt;char*&gt;(absl::str_format_internal::FormatSpecTemplate&lt;(ArgumentToConv&lt;ch
+ar*&gt;)()&gt; const&amp;, char* const&amp;)':
+/usr/local/include/absl/strings/str_format.h:366: undefined reference to `absl::str_format_internal::FormatPack[abi:cxx11](absl::str_format_internal::UntypedFormatSpecImpl, absl::Span&lt;absl::str_format_internal:
+:FormatArgImpl const&gt;)'
+/usr/bin/ld: /tmp/ccqvfnzh.o: in function `void absl::str_format_internal::FormatArgImpl::Init&lt;char const*&gt;(char const* const&amp;)':
+/usr/local/include/absl/strings/internal/str_format/arg.h:555: undefined reference to `bool absl::str_format_internal::FormatArgImpl::Dispatch&lt;char const*&gt;(absl::str_format_internal::FormatArgImpl::Data, absl::
+str_format_internal::FormatConversionSpecImpl, void*)'
+collect2: error: ld returned 1 exit status
+</code></pre>
+<p>As we can see, only the linker failed; compilation succeeded, because
+<code>/usr/local/include</code> is looked up by default and headers were found just fine:</p>
+<pre><code class="language-txt">$ echo | gcc -E -Wp,-v -
+...
+#include &lt;...&gt; search starts here:
+ /usr/lib/gcc/x86_64-linux-gnu/12/include
+ /usr/local/include                            &lt;-- *****HERE*****
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+End of search list.
+...
+</code></pre>
+<p>also, there are no <code>boost::format</code> link errors, because it's a header-only library.</p>
+<p>Let's try and use <code>pkg-config</code> autocomplete to see what libraries it can see:</p>
+<pre><code class="language-bash">$ pkg-config &lt;double tab&gt;
+Display all 334 possibilities? (y or n)
+...
+absl_base_internal                           absl_log_globals                             absl_str_format                              ncurses++w
+...
+</code></pre>
+<p>There's no boost in the output, but we can surely see <code>absl_str_format</code>, let's
+add its flags to our compile command:</p>
+<pre><code>$ g++ -std=c++2b -g poly_division.cc `pkg-config --libs absl_str_format` -o a.out
+/usr/bin/ld: /tmp/ccNGZ7Vm.o: in function `main':
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.cc:10: undefined reference to `boost::urls::parse_uri(boost::core::basic_string_view&lt;char&gt;)'
+/usr/bin/ld: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.cc:11: undefined reference to `boost::urls::url_view_base::scheme() const'
+collect2: error: ld returned 1 exit status
+</code></pre>
+<p>Great! Now we need to find the boost libraries to link against. Although boost
+is not pkg-config-enabled, we can try to manually infer the needed library:</p>
+<pre><code>$ find /usr/local/lib -name 'libboost*.a' -and -name '*url*'
+/usr/local/lib/libboost_url.a
+</code></pre>
+<p>and finally the linker succeeds:</p>
+<pre><code>$ g++ -std=c++2b -g poly_division.cc `pkg-config --libs absl_str_format` -lboost_url -o a.out
+</code></pre>
+<p>We could also try to utilize the
+<code>/usr/local/lib/cmake/boost_url-1.89.0/libboost_url-variant-static.cmake</code> file
+to help us find list of required libs.</p>
+<h3 id="case-study-2-python312-make-autotools">Case-study #2: python3.12 (make + autotools)</h3>
+<p><a href="../2024-12-04-python/">article</a></p>
+<h3 id="case-study-3-musl-libc">Case-study #3: musl libc</h3>
+<p>TODO: a target that uses musl libc - more than just -L/-I</p>
+<h2 id="miscellany">Miscellany</h2>
+<ol>
+<li>Alternative install prefixes can be useful when installing the dependencies
+   (e.g. openssl<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">6</a></sup>), that may conflict with existing libraries on the system</li>
+<li>You can avoid sudo in <code>make install</code>, if you have write rights to prefix.
+   For example I often use <code>~/.local</code> as a writable install prefix</li>
+<li>Sometimes between reinstallations a hidden state persists in places not under
+   the install prefix. Examples:<ul>
+<li><code>~/.cache</code> and analogues</li>
+<li><code>~/.local/state/nvim</code></li>
+<li><code>/etc/config</code>/<code>~/.config</code></li>
+</ul>
+</li>
+<li>A cool trick I used to intercept compiler launches:
+   <code>strace --follow-forks -e trace=process --string-limit=256 make</code>.
+   Although, same could be accomplished with just <code>make -n</code></li>
+</ol>
+<h3 id="resources">Resources</h3>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:3">
+<p><a href="https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/developer_guide/gcc-using-libraries#gcc-using-libraries_using-library-gcc">using libraries in gcc</a>&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:0">
+<p><a href="https://www.boost.org/">boost</a>&#160;<a class="footnote-backref" href="#fnref:0" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:1">
+<p><a href="https://stackoverflow.com/a/50898839">undoing make install</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config main page</a> &amp; <a href="https://people.freedesktop.org/~dbn/pkg-config-guide.html">guide</a>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://gitlab.kitware.com/cmake/community/-/wikis/FAQ#can-i-do-make-uninstall-with-cmake">install_manifest.txt</a>&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p><a href="../2024-12-04-python/#openssl">using alternative install prefix</a>&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
